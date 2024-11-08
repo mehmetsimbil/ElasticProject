@@ -1,5 +1,6 @@
 ﻿using Business.Requests.Product;
 using Business.Responses.Product;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace Business.Abstract
     {
         public AddProductResponse Add(AddProductRequest request);
         public GetProductListResponse GetList(GetProductListRequest request);
+
+
     }
 }

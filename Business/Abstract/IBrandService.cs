@@ -7,5 +7,6 @@ namespace Business.Abstract
     {
         public AddBrandResponse Add(AddBrandRequest request);
         public GetBrandListResponse GetList(GetBrandListRequest request);
+
     }
 }

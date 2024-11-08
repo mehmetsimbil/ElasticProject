@@ -8,5 +8,6 @@ namespace Business.Requests.Product
 {
     public class GetProductListRequest
     {
+      
     }
 }

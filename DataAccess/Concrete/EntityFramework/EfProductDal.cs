@@ -1,6 +1,7 @@
 ﻿using DataAccess.Abstract;
 using DataAccess.Context;
 using Entities.Concrete;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,9 @@ namespace DataAccess.Concrete.EntityFramework
     {
         public EfProductDal(ProjectContext context) : base(context)
         {
+           
         }
+
+
     }
 }

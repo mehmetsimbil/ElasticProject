@@ -5,6 +5,8 @@ using System.Text;
 using Business.DependencyResolvers;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Configuration;
+using Elasticsearch.Net;
+using Nest;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,6 +62,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 });
 
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

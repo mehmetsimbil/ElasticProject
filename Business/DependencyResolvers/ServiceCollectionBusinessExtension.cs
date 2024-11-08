@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Core.Utilities.Security.JWT;
+using Elasticsearch.Net;
+using Nest;
 
 namespace Business.DependencyResolvers
 {
@@ -37,6 +39,7 @@ namespace Business.DependencyResolvers
             services.AddDbContext<ProjectContext>(
               options => options.UseSqlServer(configuration.GetConnectionString("LastProjectConnectionString")));
 
+           
             return services;
         }
     }

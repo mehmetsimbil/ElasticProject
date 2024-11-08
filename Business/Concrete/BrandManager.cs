@@ -25,19 +25,17 @@ namespace Business.Concrete
 
         public AddBrandResponse Add(AddBrandRequest request)
         {
-            // Kullanıcı kimlik doğrulaması kontrolü
+           
             if (!_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
             {
                 throw new Exception("Hata: Kullanıcı kimlik doğrulaması başarısız. JWT token düzgün gönderilmemiş veya geçersiz.");
             }
 
-            // Token içindeki tüm claim'leri loglayalım
-            foreach (var claim in _httpContextAccessor.HttpContext.User.Claims)
-            {
-                Console.WriteLine($"Claim Type: {claim.Type}, Value: {claim.Value}");
-            }
+            //foreach (var claim in _httpContextAccessor.HttpContext.User.Claims)
+            //{
+            //    Console.WriteLine($"Claim Type: {claim.Type}, Value: {claim.Value}");
+            //}
 
-            // Rol kontrolü
             var roleClaim = _httpContextAccessor.HttpContext.User.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.Role && c.Value == "Admin");
 
@@ -46,7 +44,6 @@ namespace Business.Concrete
                 throw new Exception("Yetkiniz yok. 'Admin' rolü bulunamadı.");
             }
 
-            // Ekleme işlemi
             var brandToAdd = _mapper.Map<Brand>(request);
             Brand addedBrand = _unitOfWork.BrandDal.Add(brandToAdd);
             var response = _mapper.Map<AddBrandResponse>(addedBrand);

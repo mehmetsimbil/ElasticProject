@@ -39,7 +39,12 @@ namespace Business.DependencyResolvers
             services.AddDbContext<ProjectContext>(
               options => options.UseSqlServer(configuration.GetConnectionString("LastProjectConnectionString")));
 
-           
+            var pool = new SingleNodeConnectionPool(new Uri(configuration["Elastic:Url"]!));
+            var settings = new ConnectionSettings(pool).DefaultIndex("products");
+            var client = new ElasticClient(settings);
+            services.AddSingleton<IElasticClient>(client);
+
+
             return services;
         }
     }

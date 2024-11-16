@@ -11,5 +11,6 @@ namespace DataAccess
         public IList<TEntity> GetList(Func<TEntity, bool>? predicate = null);
         public TEntity Add(TEntity entity);
         public TEntity? Get(Func<TEntity, bool> predicate);
+        
     }
 }

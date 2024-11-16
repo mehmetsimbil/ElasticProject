@@ -4,9 +4,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Business.DependencyResolvers;
 using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.Configuration;
-using Elasticsearch.Net;
-using Nest;
 
 
 var builder = WebApplication.CreateBuilder(args);

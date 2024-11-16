@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Business.Abstract;
+using Business.Dtos.Product;
 using Business.Requests.Product;
 using Business.Responses.Category;
 using Business.Responses.Product;
 using DataAccess.Concrete.UnitOfWork;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
+using Nest;
 using System.Security.Claims;
 
 
@@ -16,12 +18,14 @@ namespace Business.Concrete
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IElasticClient _elasticClient;
 
-        public ProductManager(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public ProductManager(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, IElasticClient elasticClient)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
+            _elasticClient = elasticClient;
         }
 
         public AddProductResponse Add(AddProductRequest request)
@@ -48,7 +52,7 @@ namespace Business.Concrete
             Product addedProduct = _unitOfWork.ProductDal.Add(productToAdd);
             var response = _mapper.Map<AddProductResponse>(addedProduct);
             _unitOfWork.Save();
-
+            IndexProduct(addedProduct);
             return response;
         }
 
@@ -58,6 +62,50 @@ namespace Business.Concrete
             GetProductListResponse response = _mapper.Map<GetProductListResponse>(products);
             return response;
         }
-        
+
+        public void IndexProduct(Product product)
+        {
+            if (product == null)
+            {
+                Console.WriteLine("Product is null.");
+                return;
+            }
+
+            var indexResponse = _elasticClient.IndexDocument(product);
+
+            if (!indexResponse.IsValid)
+            {
+              
+                Console.WriteLine($"Error indexing product: {indexResponse.OriginalException?.Message}");
+                Console.WriteLine($"Error details: {indexResponse.DebugInformation}");
+            }
+            else
+            {
+                Console.WriteLine("Product indexed successfully.");
+            }
+        }
+
+        public GetProductListResponse GetListFromElastic(GetProductListRequest request)
+        {
+           
+            var searchResponse = _elasticClient.Search<Product>(s => s
+                .Query(q => q.MatchAll())  
+            );
+
+            if (!searchResponse.IsValid || searchResponse.Hits.Count == 0)
+            {
+                return new GetProductListResponse();  
+            }
+
+            
+            var productList = searchResponse.Documents.ToList();
+
+          
+            var items = _mapper.Map<List<ProductListItemDto>>(productList);
+
+            return new GetProductListResponse(items);  
+        }
+
+
     }
 }

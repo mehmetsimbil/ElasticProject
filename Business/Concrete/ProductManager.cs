@@ -2,7 +2,6 @@
 using Business.Abstract;
 using Business.Dtos.Product;
 using Business.Requests.Product;
-using Business.Responses.Category;
 using Business.Responses.Product;
 using DataAccess.Concrete.UnitOfWork;
 using Entities.Concrete;
@@ -73,16 +72,6 @@ namespace Business.Concrete
 
             var indexResponse = _elasticClient.IndexDocument(product);
 
-            if (!indexResponse.IsValid)
-            {
-              
-                Console.WriteLine($"Error indexing product: {indexResponse.OriginalException?.Message}");
-                Console.WriteLine($"Error details: {indexResponse.DebugInformation}");
-            }
-            else
-            {
-                Console.WriteLine("Product indexed successfully.");
-            }
         }
 
         public GetProductListResponse GetListFromElastic(GetProductListRequest request)

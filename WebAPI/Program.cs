@@ -75,18 +75,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.Use(async (context, next) =>
-{
-    var token = context.Request.Headers["Authorization"].FirstOrDefault();
-    if (string.IsNullOrEmpty(token))
-    {
-        Console.WriteLine("Uyarý: Authorization baþlýðý bulunamadý.");
-    }
-    else
-    {
-        Console.WriteLine($"Bilgi: Authorization baþlýðý mevcut - Token: {token}");
-    }
 
-    await next.Invoke();
-});
 app.Run();

@@ -36,10 +36,7 @@ namespace WebAPI.Controllers
         {
         
             GetProductListResponse response = _productService.GetListFromElastic(request);
-            if (response.Items == null || response.Items.Count == 0)
-            {
-                return NotFound("No products found in Elasticsearch.");
-            }
+            
             return Ok(response);
         }
     }

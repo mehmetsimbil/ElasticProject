@@ -27,7 +27,7 @@ namespace WebAPI.Controllers
         public ActionResult<AddBrandResponse> AddBrand(AddBrandRequest request)
         {
             AddBrandResponse response = _brandService.Add(request);
-            return CreatedAtAction(nameof(GetList),response); //201
+            return CreatedAtAction(nameof(GetList), new { id = response.Id }, response); //201
         }
     }
 }

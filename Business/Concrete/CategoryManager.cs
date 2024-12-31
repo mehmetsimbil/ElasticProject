@@ -53,8 +53,8 @@ namespace Business.Concrete
 
             var categoryToAdd = _mapper.Map<Category>(request);
             Category addedCategory = _unitOfWork.CategoryDal.Add(categoryToAdd);
-            var response = _mapper.Map<AddCategoryResponse>(addedCategory);
             _unitOfWork.Save();
+            var response = _mapper.Map<AddCategoryResponse>(addedCategory);
 
             return response;
         }

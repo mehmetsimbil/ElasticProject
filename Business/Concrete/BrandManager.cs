@@ -46,9 +46,8 @@ namespace Business.Concrete
 
             var brandToAdd = _mapper.Map<Brand>(request);
             Brand addedBrand = _unitOfWork.BrandDal.Add(brandToAdd);
-            var response = _mapper.Map<AddBrandResponse>(addedBrand);
             _unitOfWork.Save();
-
+            var response = _mapper.Map<AddBrandResponse>(addedBrand);
             return response;
         }
         public GetBrandListResponse GetList(GetBrandListRequest request)

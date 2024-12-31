@@ -49,8 +49,8 @@ namespace Business.Concrete
 
             var productToAdd = _mapper.Map<Product>(request);
             Product addedProduct = _unitOfWork.ProductDal.Add(productToAdd);
-            var response = _mapper.Map<AddProductResponse>(addedProduct);
             _unitOfWork.Save();
+            var response = _mapper.Map<AddProductResponse>(addedProduct);  
             IndexProduct(addedProduct);
             return response;
         }

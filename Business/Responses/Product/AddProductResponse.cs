@@ -8,6 +8,13 @@ namespace Business.Responses.Product
 {
     public class AddProductResponse
     {
+        public AddProductResponse(int id, string productName, DateTime createdTime)
+        {
+            Id = id;
+            ProductName = productName;
+            CreatedTime = createdTime;
+        }
+
         public int Id { get; set; }
         public string ProductName { get; set; }
         public DateTime CreatedTime { get; set; }
